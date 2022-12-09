@@ -1,0 +1,7 @@
+{
+  "host": "localhost",
+  "port": 7000,
+  "requiredHeaders": {
+    "content-type": ["application/json"]
+  }
+}
