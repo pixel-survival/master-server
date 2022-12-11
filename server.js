@@ -7,6 +7,7 @@ const RequiredFields = require('./core/RequiredFields');
 const responseService = require('./core/ResponseService');
 const log = require('./core/Log');
 const config = require('./config/app');
+const db = require('./core/db');
 const server = express();
 
 server.use(helmet());
@@ -14,15 +15,6 @@ server.use(cors());
 server.use(responseService.checkHeaders('content-type', config.requiredHeaders['content-type'], ['POST']));
 server.use(json());
 server.use(responseService.checkInvalidJSON);
-
-const db = {
-  server: {
-    list: [],
-    getByHost(host) {
-      return this.list.find(item => item.host === host);
-    }
-  }
-}
 
 server.get('/server-list/', (request, response) => {
   const payload = new Payload();
