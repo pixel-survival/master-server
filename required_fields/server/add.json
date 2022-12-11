@@ -1,12 +1,12 @@
 [
   {
-      "name": "host",
-      "type": "string",
-      "rules": "^[a-zA-Z0-9\\s]*$",
-      "length": {
-          "min": 3,
-          "max": 100
-      }
+    "name": "host",
+    "type": "string",
+    "rules": "^[a-zA-Z0-9\\s]*$",
+    "length": {
+        "min": 3,
+        "max": 100
+    }
   },
   {
     "name": "port",
