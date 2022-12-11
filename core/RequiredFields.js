@@ -72,13 +72,10 @@ class RequiredFields {
     this._check();
   }
 
-  static get auth() {
+  static get server() {
     return {
-      get login() {
-        return require('./../required_fields/auth/login');
-      },
-      get logout() {
-        return require('./../required_fields/auth/logout');
+      get add() {
+        return require('./../required_fields/server/add');
       }
     }
   }

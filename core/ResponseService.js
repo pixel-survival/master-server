@@ -1,17 +1,15 @@
-const config = require('./../config/app');
 const Payload = require('./Payload');
 
 class ResponseService {
-  checkHeaders(type, methods) {
+  checkHeaders(headerType, headerValues, methods) {
     return (request, response, next) => {
       const payload = new Payload();
-      const headerValues = config.server.login.requiredHeaders[type];
-      const notContainsHeaderType = !request.headers[type];
-      const notContainsHeaderValue = !headerValues.some(headerValue => request.headers[type] === headerValue);
+      const notContainsHeaderType = !request.headers[headerType];
+      const notContainsHeaderValue = !headerValues.some(headerValue => request.headers[headerType] === headerValue);
 
       if ((notContainsHeaderType || notContainsHeaderValue) && methods.includes(request.method)) {
         payload.add('status', 'error');
-        payload.add('message', `Invalid header ${type}. Only: [${headerValues.join(', ')}]`);
+        payload.add('message', `Invalid header ${headerType}. Only: [${headerValues.join(', ')}]`);
 
         response.send(payload.get());
 

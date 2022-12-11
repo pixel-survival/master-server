@@ -1,0 +1,28 @@
+[
+  {
+      "name": "host",
+      "type": "string",
+      "rules": "^[a-zA-Z0-9\\s]*$",
+      "length": {
+          "min": 3,
+          "max": 100
+      }
+  },
+  {
+    "name": "port",
+    "type": "number"
+  },
+  {
+    "name": "name",
+    "type": "string",
+    "rules": "^[a-zA-Z0-9\\s]*$",
+    "length": {
+        "min": 3,
+        "max": 100
+    }
+  },
+  {
+    "name": "playersMax",
+    "type": "number"
+  }
+]

@@ -11,32 +11,67 @@ const server = express();
 
 server.use(helmet());
 server.use(cors());
-server.use(responseService.checkHeaders('content-type', ['POST']));
+server.use(responseService.checkHeaders('content-type', config.requiredHeaders['content-type'], ['POST']));
 server.use(json());
 server.use(responseService.checkInvalidJSON);
 
+const db = {
+  server: {
+    list: [],
+    getByHost(host) {
+      return this.list.find(item => item.host === host);
+    }
+  }
+}
+
 server.get('/server-list/', (request, response) => {
   const payload = new Payload();
-  const serverList = [
-    {
-      host: "localhost",
-      port: 7777,
-      name: 'Pixel survival official server',
-      players: {
-        online: 0,
-        max: 32
-      }
-    }
-  ]
 
   payload.add('status', 'success');
-  payload.add('data', serverList);
+  payload.add('data', db.server.list);
+  response.send(payload.get());
+});
 
+server.post('/server/add/', (request, response) => {
+  const payload = new Payload();
+  const server = {
+    host: request.body.host,
+    port: request.body.port,
+    name: request.body.name,
+    playersOnline: 0,
+    playersMax: request.body.playersMax
+  }
+  const requiredFields = new RequiredFields(RequiredFields.server.add, {
+    host: server.host,
+    port: server.port,
+    name: server.name,
+    playersMax: server.playersMax
+  });
+
+  if (!requiredFields.state) {
+    payload.add('status', 'error');
+    payload.add('message', requiredFields.message);
+    response.send(payload.get());
+
+    return;
+  }
+
+  if (db.server.getByHost(server.host)) {
+    payload.add('status', 'error');
+    payload.add('message', `Server ${server.host} already exists`);
+    response.send(payload.get());
+
+    return;
+  }
+
+  db.server.list.push(server);
+  payload.add('status', 'success');
+  payload.add('data', server);
   response.send(payload.get());
 });
 
 server.listen(config.port, config.host, () => {
-  log.info(`Login server listening on ${config.host}:${config.port}`);
+  log.info(`Master server listening on ${config.host}:${config.port}`);
 });
 
 process.on('uncaughtException', error => {
