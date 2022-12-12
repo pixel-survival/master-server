@@ -27,14 +27,13 @@ server.get('/server-list/', (request, response) => {
 server.post('/server/add/', (request, response) => {
   const payload = new Payload();
   const server = {
-    host: request.body.host,
+    host: request.socket.remoteAddress,
     port: request.body.port,
     name: request.body.name,
     playersOnline: 0,
     playersMax: request.body.playersMax
   }
   const requiredFields = new RequiredFields(RequiredFields.server.add, {
-    host: server.host,
     port: server.port,
     name: server.name,
     playersMax: server.playersMax
