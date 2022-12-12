@@ -62,13 +62,13 @@ server.post('/server/add/', (request, response) => {
   response.send(payload.get());
 });
 
-server.listen(config.port, config.host, () => {
-  log.info(`Master server listening on ${config.host}:${config.port}`);
+server.listen(config.port, 'localhost', () => {
+  log.info(`Master server listening on localhost:${config.port}`);
 });
 
 process.on('uncaughtException', error => {
   if (error.code === 'EADDRINUSE') {
-    log.error(`Error: address already in use ${config.host}:${config.port}`);
+    log.error(`Error: address already in use localhost:${config.port}`);
   } else {
     log.normal(error);
   }
