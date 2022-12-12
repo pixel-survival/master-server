@@ -49,7 +49,7 @@ server.post('/server/add/', (request, response) => {
 
   if (db.server.getByHost(server.host)) {
     payload.add('status', 'error');
-    payload.add('message', `Server ${server.host} already exists`);
+    payload.add('message', `Server ${server.host} already exists on master server`);
     response.send(payload.get());
 
     return;
