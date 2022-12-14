@@ -16,7 +16,7 @@ server.use(responseService.checkHeaders('content-type', config.requiredHeaders['
 server.use(json());
 server.use(responseService.checkInvalidJSON);
 
-server.get('/server-list/', (request, response) => {
+server.get('/server/list/', (request, response) => {
   const payload = new Payload();
 
   payload.add('status', 'success');
